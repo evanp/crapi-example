@@ -31,7 +31,7 @@ var server = connect.createServer(
         app.get('/.well-known/host-meta', hostMeta);
         app.post('/giveMeAKey', giveMeAKey);
         app.post('/giveMeAKeyLater', giveMeAKeyLater);
-        app.post('/isThisAValidNonceAndTimestamp', isThisAValidNonce);
+        app.post('/isThisAValidNonceAndTimestamp', isThisAValidNonceAndTimestamp);
         app.post('/hereIsYourKey', hereIsYourKey);
     })
 );
