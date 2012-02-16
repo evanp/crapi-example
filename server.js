@@ -23,19 +23,6 @@ if (!hostname) {
     throw new Error("Must define a hostname in config file.");
 }
 
-var server = connect.createServer(
-    connect.logger(),
-    connect.bodyParser(),
-    connect.errorHandler({showMessage: true}),
-    connect.router(function(app) {
-        app.get('/.well-known/host-meta', hostMeta);
-        app.post('/giveMeAKey', giveMeAKey);
-        app.post('/giveMeAKeyLater', giveMeAKeyLater);
-        app.post('/isThisAValidNonceAndTimestamp', isThisAValidNonceAndTimestamp);
-        app.post('/hereIsYourKey', hereIsYourKey);
-    })
-);
-
 var unimplemented = function(req, res) {
     res.writeHead(500, {'Content-Type': 'text/plain'});
     res.end('Unimplemented (yet)');
@@ -71,6 +58,19 @@ var hostMeta = function(req, res) {
 
     res.end('</XRD>');
 };
+
+var server = connect.createServer(
+    connect.logger(),
+    connect.bodyParser(),
+    connect.errorHandler({showMessage: true}),
+    connect.router(function(app) {
+        app.get('/.well-known/host-meta', hostMeta);
+        app.post('/giveMeAKey', giveMeAKey);
+        app.post('/giveMeAKeyLater', giveMeAKeyLater);
+        app.post('/isThisAValidNonceAndTimestamp', isThisAValidNonceAndTimestamp);
+        app.post('/hereIsYourKey', hereIsYourKey);
+    })
+);
 
 server.listen(80);
 
