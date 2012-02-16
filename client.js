@@ -134,7 +134,7 @@ var getAKeyFromServer = function(req, res) {
                                 showHTML(500, err.message);
                             } else {
                                 cred = qs.parse(body);
-                                showHTML(200, "Got identifier '" + cred.identifier + "' and secret (shh!) '" + cred.sharedSecret + "'");
+                                showHTML(200, "Got identifier '" + cred.ack_client_identifier + "' and secret (shh!) '" + cred.ack_client_shared_secret + "'");
                             }
                         });
                     }
