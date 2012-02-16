@@ -18,7 +18,8 @@ var http = require('http'),
     url = require('url'),
     qs = require('querystring'),
     crypto = require('crypto'),
-    xml2js = require('xml2js');
+    xml2js = require('xml2js'),
+    _ = require('underscore');
 
 var postRequest = function(targetUrl, params, callback) {
 
@@ -83,8 +84,13 @@ var discoverRels = function(server, callback) {
                     return;
                 }
 
-                for (i in doc.Link) {
-                    Link = doc.Link[i];
+                if (_.isArray(doc.Link)) {
+                    for (i in doc.Link) {
+                        Link = doc.Link[i];
+                        rels[Link['@'].rel] = Link['@'].href;
+                    }
+                } else {
+                    Link = doc.Link;
                     rels[Link['@'].rel] = Link['@'].href;
                 }
 
