@@ -57,7 +57,7 @@ var postRequest = function(targetUrl, params, callback) {
 
 var discoverRels = function(server, callback) {
 
-    http.get({host: server; port: 80; path: '/.well-known/host-meta'}, function(res) {
+    http.get({host: server, port: 80, path: '/.well-known/host-meta'}, function(res) {
 
         if (res.statusCode !== 200) {
             callback(new Error("HTTP Error: got status " + res.statusCode), null);
