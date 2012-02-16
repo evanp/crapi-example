@@ -78,8 +78,8 @@ var invalidateNonce = function(nonce, callback) {
 
 var isThisAValidNonce = function(req, res) {
 
-    var nonce = req.query.ack_nonce,
-        server = req.query.ack_server;
+    var nonce = req.body.ack_nonce,
+        server = req.body.ack_server;
 
     // XXX: throttle abusive requests
 
@@ -95,7 +95,7 @@ var isThisAValidNonce = function(req, res) {
 };
 
 var getAKeyFromServer = function(req, res) {
-    var server = req.query.server;
+    var server = req.body.server;
     var showHTML = function(status, message) {
         res.writeHead(status, {'Content-Type': 'text/html'});
         res.end("<!DOCTYPE html>\n"+
