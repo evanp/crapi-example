@@ -110,6 +110,11 @@ var randomString = function(bytes, callback) {
         nonce = nonce.replace(/\+/g, '-');
         nonce = nonce.replace(/\//g, '_');
         nonce = nonce.replace(/\=/g, '');
+        
+        callback(null, nonce);
+    });
 };
 
 exports.discoverRels = discoverRels;
+exports.randomString = randomString;
+exports.postRequest = postRequest;
