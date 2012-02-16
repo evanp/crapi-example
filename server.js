@@ -89,7 +89,7 @@ var giveMeAKey = function(req, res) {
                 ack_nonce: nonce
             };
 
-            postRequest(rels['ack-validate'].href, params, function(err, cres, body) {
+            postRequest(rels['ack-validate'], params, function(err, cres, body) {
 
                 if (err || cres.statusCode !== 200) {
 

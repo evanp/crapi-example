@@ -122,7 +122,7 @@ var getAKeyFromServer = function(req, res) {
                     'ack_client': hostname,
                     'ack_nonce': nonce
                 };
-                postRequest(rels['ack-request'].href, params, function(err, res, body) {
+                postRequest(rels['ack-request'], params, function(err, res, body) {
                     if (err) {
                         showHTML(500, err.message);
                     } else if (res.statusCode != 200) {
