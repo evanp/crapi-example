@@ -61,8 +61,8 @@ var unimplemented = function(req, res) {
 
 var giveMeAKey = function(req, res) {
 
-    var client = req.params.ack_client,
-        nonce = req.params.ack_nonce,
+    var client = req.query.ack_client,
+        nonce = req.query.ack_nonce,
         showError = function(code, message) {
             res.writeHead(code, {'Content-Type': 'text/plain'});
             res.end(message);
