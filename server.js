@@ -138,6 +138,7 @@ var hostMeta = function(req, res) {
 var server = connect.createServer(
     connect.logger(),
     connect.bodyParser(),
+    connect.query(),
     connect.errorHandler({showMessage: true}),
     connect.router(function(app) {
         app.get('/.well-known/host-meta', hostMeta);
