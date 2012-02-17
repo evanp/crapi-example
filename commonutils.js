@@ -1,4 +1,4 @@
-// discovery for ACK
+// discovery for CRAPI
 //
 // Copyright 2012 StatusNet Inc.
 //
@@ -31,7 +31,7 @@ var postRequest = function(targetUrl, params, callback) {
         path: (parts.search) ? parts.pathname+'?'+parts.search : parts.pathname,
         method: 'POST',
         headers: {'content-type': 'application/x-www-form-urlencoded',
-                  'user-agent': 'ack-example/0.1.0dev'}
+                  'user-agent': 'crapi-example/0.1.0dev'}
     };
 
     var creq = http.request(options, function(res) {

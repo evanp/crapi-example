@@ -1,4 +1,4 @@
-// server for ACK
+// server for CRAPI
 //
 // Copyright 2011, 2012 StatusNet Inc.
 //
@@ -61,8 +61,8 @@ var unimplemented = function(req, res) {
 
 var giveMeAKey = function(req, res) {
 
-    var client = req.body.ack_client,
-        nonce = req.body.ack_nonce,
+    var client = req.body.crapi_client,
+        nonce = req.body.crapi_nonce,
         showError = function(code, message) {
             res.writeHead(code, {'Content-Type': 'text/plain'});
             res.end(message);
@@ -78,18 +78,18 @@ var giveMeAKey = function(req, res) {
 
             showError(500, "Can't get host-meta for " + client);
 
-        } else if (!rels.hasOwnProperty('ack-validate')) {
+        } else if (!rels.hasOwnProperty('crapi-validate')) {
 
-            showError(500, "No ACK support in " + client);
+            showError(500, "No CRAPI support in " + client);
 
         } else {
 
             var params = {
-                ack_server: hostname,
-                ack_nonce: nonce
+                crapi_server: hostname,
+                crapi_nonce: nonce
             };
 
-            postRequest(rels['ack-validate'], params, function(err, cres, body) {
+            postRequest(rels['crapi-validate'], params, function(err, cres, body) {
 
                 if (err || cres.statusCode !== 200) {
 
@@ -101,8 +101,8 @@ var giveMeAKey = function(req, res) {
                         if (err) {
                             showError(500, "Can't make new credentials");
                         } else {
-                            showSuccess({ack_client_identifier: identifier,
-                                         ack_client_shared_secret: sharedSecret});
+                            showSuccess({crapi_client_identifier: identifier,
+                                         crapi_client_shared_secret: sharedSecret});
                         }
                     });
                 }
@@ -130,7 +130,7 @@ var hostMeta = function(req, res) {
 
     res.write('<hm:Host xmlns:hm="http://host-meta.net/xrd/1.0">' + hostname + '</hm:Host>');
 
-    linkRel('ack-request', localUrl('giveMeAKey'));
+    linkRel('crapi-request', localUrl('giveMeAKey'));
 
     res.end('</XRD>');
 };

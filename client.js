@@ -1,4 +1,4 @@
-// client for ACK
+// client for CRAPI
 //
 // Copyright 2011, 2012 StatusNet Inc.
 //
@@ -78,8 +78,8 @@ var invalidateNonce = function(nonce, callback) {
 
 var isThisAValidNonce = function(req, res) {
 
-    var nonce = req.body.ack_nonce,
-        server = req.body.ack_server;
+    var nonce = req.body.crapi_nonce,
+        server = req.body.crapi_server;
 
     // XXX: throttle abusive requests
 
@@ -100,9 +100,9 @@ var getAKeyFromServer = function(req, res) {
         res.writeHead(status, {'Content-Type': 'text/html'});
         res.end("<!DOCTYPE html>\n"+
                 "<html>" +
-                "<head><title>ACK Result</title></head>" +
+                "<head><title>CRAPI Result</title></head>" +
                 "<body>" +
-                "<h1>ACK Result</h1>" +
+                "<h1>CRAPI Result</h1>" +
                 "<p>"+
                 message +
                 "</p>" +
@@ -113,16 +113,16 @@ var getAKeyFromServer = function(req, res) {
         var parts, options, creq, params, nonce;
         if (err) {
             showHTML(500, err.message);
-        } else if (!rels.hasOwnProperty('ack-request')) {
-            showHTML(400, "Server " + server + " not ACK-capable.");
+        } else if (!rels.hasOwnProperty('crapi-request')) {
+            showHTML(400, "Server " + server + " not CRAPI-capable.");
         } else {
 
             makeANewNonce(server, function(err, nonce) {
                 params = {
-                    'ack_client': hostname,
-                    'ack_nonce': nonce
+                    'crapi_client': hostname,
+                    'crapi_nonce': nonce
                 };
-                postRequest(rels['ack-request'], params, function(err, res, body) {
+                postRequest(rels['crapi-request'], params, function(err, res, body) {
                     if (err) {
                         showHTML(500, err.message);
                     } else if (res.statusCode != 200) {
@@ -134,7 +134,7 @@ var getAKeyFromServer = function(req, res) {
                                 showHTML(500, err.message);
                             } else {
                                 cred = qs.parse(body);
-                                showHTML(200, "Got identifier '" + cred.ack_client_identifier + "' and secret (shh!) '" + cred.ack_client_shared_secret + "'");
+                                showHTML(200, "Got identifier '" + cred.crapi_client_identifier + "' and secret (shh!) '" + cred.crapi_client_shared_secret + "'");
                             }
                         });
                     }
@@ -149,9 +149,9 @@ var showServerForm = function(req, res) {
     res.writeHead(200, {'Content-Type': 'text/html'});
     res.end("<!DOCTYPE html>\n"+
             "<html>" +
-            "<head><title>ACK Example</title></head>" +
+            "<head><title>CRAPI Example</title></head>" +
             "<body>" +
-            "<h1>ACK Example</h1>" +
+            "<h1>CRAPI Example</h1>" +
             "<p>"+
             "<form method='post' action='/'>"+
             "<label for='server'>Server</label>: <input type='text' size='30' name='server' id='server'/>"+
@@ -179,7 +179,7 @@ var hostMeta = function(req, res) {
 
     res.write('<hm:Host xmlns:hm="http://host-meta.net/xrd/1.0">' + hostname + '</hm:Host>');
 
-    linkRel('ack-validate', localUrl('isThisAValidNonce'));
+    linkRel('crapi-validate', localUrl('isThisAValidNonce'));
 
     res.end('</XRD>');
 };
