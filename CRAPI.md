@@ -31,14 +31,13 @@ In this flow, a client gets new client credentials from a server.
    * `crapi_nonce`: the nonce passed with the request.
    * `crapi_server`: hostname for the server.
 
-5. Client validates that:
+5. Client validates the nonce, and returns a 200 status code for
+   successful validation, or 4xx or 5xx codes for an invalid
+   nonce. Client should check:
    
    * it has made a request using the nonce in `crapi_nonce`
-   * the request went to the CRAPI request endpoint for crapi_server
+   * the request went to the CRAPI request endpoint for `crapi_server`
    * it was made relatively recently (say, within 5 minutes, for synch requests)
-
-   Client returns a 200 status code for successful validation. 4xx or
-   5xx codes represent an invalid nonce.
 
 6. After validation, server returns new client credentials to CRAPI
    request. The results are a URL-encoded, with the following fields:
@@ -46,5 +45,8 @@ In this flow, a client gets new client credentials from a server.
    * `crapi_client_identifier`: a new client identifier
    * `crapi_client_shared_secret`: a new shared secret for the client.
 
-   The server should use TLS for its CRAPI request endpoint, since
-   it's sending back credentials in the clear.
+Notes
+=====
+
+* The server should use TLS for its CRAPI request endpoint, since it's
+  sending back credentials in the clear.
