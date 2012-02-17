@@ -16,13 +16,13 @@ In this flow, a client gets new client credentials from a server.
 2. Client POSTs a request to the CRAPI request endpoint, with the
    following required parameters:
 
-   > crapi_client: hostname for the client.
-   > crapi_nonce: opaque, unique identifier for this request.
+       crapi_client: hostname for the client.
+       crapi_nonce: opaque, unique identifier for this request.
 
    It can also have the following optional parameters:
 
-   > crapi_client_type: type of client; defaults to "confidential".
-   > crapi_client_redirection_uri: an URI to use for redirection in OAuth
+       crapi_client_type: type of client; defaults to "confidential".
+       crapi_client_redirection_uri: an URI to use for redirection in OAuth
         as in http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.
 
 3. Server uses Host-Meta on the host provided in crapi_client to
@@ -32,8 +32,8 @@ In this flow, a client gets new client credentials from a server.
 4. Server POSTs a request to the CRAPI validator endpoint with the
    following parameters:
 
-   > crapi_nonce: the nonce passed with the request.
-   > crapi_server: hostname for the server.
+       crapi_nonce: the nonce passed with the request.
+       crapi_server: hostname for the server.
 
 5. Client validates that:
    
@@ -47,8 +47,8 @@ In this flow, a client gets new client credentials from a server.
 6. After validation, server returns new client credentials to CRAPI
    request. The results are a URL-encoded, with the following fields:
 
-   > crapi_client_identifier: a new client identifier
-   > crapi_client_shared_secret: a new shared secret for the client.
+       crapi_client_identifier: a new client identifier
+       crapi_client_shared_secret: a new shared secret for the client.
 
    The server should use TLS for its CRAPI request endpoint, since
    it's sending back credentials in the clear.
