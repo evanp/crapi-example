@@ -14,15 +14,12 @@ In this flow, a client gets new client credentials from a server.
    "crapi-request".
 
 2. Client POSTs a request to the CRAPI request endpoint, with the
-   following required parameters:
+   following parameters:
 
-   * `crapi_client`: hostname for the client.
-   * `crapi_nonce`: opaque, unique identifier for this request.
-
-   It can also have the following optional parameters:
-
-   * `crapi_client_type`: type of client; defaults to "confidential".
-   * `crapi_client_redirection_uri`: an URI to use for redirection.
+   * `crapi_client`: hostname for the client. Required.
+   * `crapi_nonce`: opaque, unique identifier for this request. Required.
+   * `crapi_client_type`: type of client. Optional; defaults to "confidential".
+   * `crapi_client_redirection_uri`: an URI to use for redirection. Optional.
 
 3. Server uses Host-Meta on the host provided in `crapi_client` to
    discover a CRAPI validator endpoint. This is a link with
