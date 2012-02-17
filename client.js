@@ -116,10 +116,11 @@ var getAKeyFromServer = function(req, res) {
         } else if (!rels.hasOwnProperty('crapi-request')) {
             showHTML(400, "Server " + server + " not CRAPI-capable.");
         } else {
-
             makeANewNonce(server, function(err, nonce) {
                 params = {
                     'crapi_client': hostname,
+                    'crapi_client_type': 'confidential',
+                    'crapi_client_redirection_uri': 'http://' + hostname + '/redirectionEndpoint',
                     'crapi_nonce': nonce
                 };
                 postRequest(rels['crapi-request'], params, function(err, res, body) {
@@ -134,7 +135,8 @@ var getAKeyFromServer = function(req, res) {
                                 showHTML(500, err.message);
                             } else {
                                 cred = qs.parse(body);
-                                showHTML(200, "Got identifier '" + cred.crapi_client_identifier + "' and secret (shh!) '" + cred.crapi_client_shared_secret + "'");
+                                showHTML(200, "Got identifier '" + cred.crapi_client_identifier + 
+                                         "' and secret (shh!) '" + cred.crapi_client_shared_secret + "'");
                             }
                         });
                     }
@@ -184,6 +186,20 @@ var hostMeta = function(req, res) {
     res.end('</XRD>');
 };
 
+var redirectionEndpoint = function(req, res) {
+    res.writeHead(200, {'Content-Type': 'text/html'});
+    res.end("<!DOCTYPE html>\n"+
+            "<html>" +
+            "<head><title>Redirection endpoint</title></head>" +
+            "<body>" +
+            "<h1>Redirection endpoint</h1>" +
+            "<p>"+
+            "It goes around and around and around and it comes out here." +
+            "</p>" +
+            "</body>" +
+            "</html>");
+};
+
 var server = connect.createServer(
     connect.logger(),
     connect.bodyParser(),
@@ -194,6 +210,7 @@ var server = connect.createServer(
         app.get('/', showServerForm);
         app.post('/', getAKeyFromServer);
         app.post('/isThisAValidNonce', isThisAValidNonce);
+        app.get('/redirectionEndpoint', redirectionEndpoint);
     })
 );
 

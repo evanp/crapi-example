@@ -34,7 +34,7 @@ if (!hostname) {
 
 var credentials = {};
 
-var makeNewCredentials = function(client, callback) {
+var makeNewCredentials = function(client, type, redirectionURI, callback) {
     randomString(16, function(err, identifier) {
         if (err) {
             callback(err, null, null);
@@ -45,6 +45,8 @@ var makeNewCredentials = function(client, callback) {
                 } else {
                     credentials[identifier] = {
                         client: client,
+                        type: type,
+                        redirectionURI: redirectionURI,
                         sharedSecret: sharedSecret
                     };
                     callback(null, identifier, sharedSecret);
@@ -63,6 +65,8 @@ var giveMeAKey = function(req, res) {
 
     var client = req.body.crapi_client,
         nonce = req.body.crapi_nonce,
+        type = req.body.crapi_client_type || 'confidential',
+        redirectionURI = req.body.crapi_redirection_uri || null,
         showError = function(code, message) {
             res.writeHead(code, {'Content-Type': 'text/plain'});
             res.end(message);
@@ -97,7 +101,7 @@ var giveMeAKey = function(req, res) {
 
                 } else {
 
-                    makeNewCredentials(client, function(err, identifier, sharedSecret) {
+                    makeNewCredentials(client, type, redirectionURI, function(err, identifier, sharedSecret) {
                         if (err) {
                             showError(500, "Can't make new credentials");
                         } else {
