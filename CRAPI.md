@@ -22,8 +22,7 @@ In this flow, a client gets new client credentials from a server.
    It can also have the following optional parameters:
 
    * `crapi_client_type`: type of client; defaults to "confidential".
-   * `crapi_client_redirection_uri`: an URI to use for redirection in OAuth
-        as in http://tools.ietf.org/html/draft-ietf-oauth-v2-23#section-3.1.2.
+   * `crapi_client_redirection_uri`: an URI to use for redirection.
 
 3. Server uses Host-Meta on the host provided in `crapi_client` to
    discover a CRAPI validator endpoint. This is a link with
